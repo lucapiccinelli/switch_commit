@@ -5,6 +5,18 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
+list=0
+while getopts "l" opt; do
+    case "$opt" in
+    l) list=1
+    esac
+done
+
+if [ $list -eq "1" ]; then
+    git log --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)'
+    exit 0
+fi
+
 which_commit=$1
 git_ids=git_ids.txt
 
