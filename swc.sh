@@ -1,18 +1,30 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
+function show_help {
     echo "usage: ./swc.sh [options] <commit_num_starting_from_0>"
     echo "options:"
     echo "   -l   shows the commit list with commit number. Can be followed by branch name. Example \"swh -l master\""
+    echo "   -h   shows this help"
+}
+
+if [ -z "$1" ]; then
+    show_help
     exit 0
 fi
 
 list=0
-while getopts "l" opt; do
+help=0
+while getopts "lh" opt; do
     case "$opt" in
-    l) list=1
+    l) list=1;;
+    h) help=1;;
     esac
 done
+
+if [ $help -eq "1" ]; then
+    show_help
+    exit 0
+fi
 
 if [ $list -eq "1" ]; then
     readarray -t logs < <((git log $2 --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)' && echo ) | tac)
