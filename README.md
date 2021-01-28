@@ -9,7 +9,7 @@ Bash script to switch between git commits
 ```
 
 ```bash
-./swh.sh -l main #list all the commits with commit number of the given branch
+./swh.sh -l main #list all the commits of the given branch, with commit number
 ```
 
 ![usage example](imgs/swc.gif)
