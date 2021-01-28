@@ -1,7 +1,9 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "usage: ./swc.sh <commit_num_starting_from_0>"
+    echo "usage: ./swc.sh [options] <commit_num_starting_from_0>"
+    echo "options:"
+    echo "   -l   shows the commit list with commit number"
     exit 0
 fi
 
@@ -13,7 +15,10 @@ while getopts "l" opt; do
 done
 
 if [ $list -eq "1" ]; then
-    git log --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)'
+    readarray -t logs < <((git log --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)' && echo ) | tac)
+    for i in "${!logs[@]}"; do
+        printf "%s   %s\n" "$i" "${logs[$i]}"
+    done
     exit 0
 fi
 
