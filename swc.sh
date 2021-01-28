@@ -3,7 +3,7 @@
 if [ -z "$1" ]; then
     echo "usage: ./swc.sh [options] <commit_num_starting_from_0>"
     echo "options:"
-    echo "   -l   shows the commit list with commit number"
+    echo "   -l   shows the commit list with commit number. Can be followed by branch name. Example \"swh -l master\""
     exit 0
 fi
 
@@ -15,7 +15,7 @@ while getopts "l" opt; do
 done
 
 if [ $list -eq "1" ]; then
-    readarray -t logs < <((git log --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)' && echo ) | tac)
+    readarray -t logs < <((git log $2 --pretty=format:'%C(Yellow)%h %Cgreen%aN %Creset%s %C(auto)' && echo ) | tac)
     for i in "${!logs[@]}"; do
         printf "%s   %s\n" "$i" "${logs[$i]}"
     done
